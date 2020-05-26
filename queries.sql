@@ -11,7 +11,7 @@ WHERE `date_of_birth` > '1988-01-01';
 -- Tutti gli ospiti nati dopo il 1988
 SELECT * 
 FROM `ospiti`
-WHERE `date_of_birth` < CURRENT_DATE() - DATE('0020-00-00');
+WHERE `date_of_birth` < DATE_SUB(CURRENT_DATE(), INTERVAL 20 YEAR);
 
 -- Tutti gli ospiti il cui nome inizia con la D
 SELECT * 
