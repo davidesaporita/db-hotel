@@ -28,6 +28,13 @@ SELECT MAX(`price`)
 FROM `pagamenti` 
 WHERE `status` = 'accepted';
 
+-- Alternativa al prezzo massimo pagato
+SELECT `price` AS `max_price`
+FROM `pagamenti`
+WHERE `status` = 'accepted'
+ORDER BY `price` DESC
+LIMIT 1;
+
 -- Ospiti riconosciuti con patente e nati nel 1975
 SELECT * 
 FROM `ospiti`
