@@ -6,7 +6,7 @@ WHERE `document_type` = 'CI';
 -- Tutti gli ospiti nati dopo il 1988
 SELECT * 
 FROM `ospiti`
-WHERE `date_of_birth` > '1988-01-01';
+WHERE YEAR(`date_of_birth`) > '1988';
 
 -- Tutti gli ospiti nati dopo il 1988
 SELECT * 
