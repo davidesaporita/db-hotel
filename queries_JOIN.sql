@@ -55,7 +55,6 @@ ON `ospiti`.`id` = `paganti`.`ospite_id`
 WHERE YEAR(`prenotazioni_has_ospiti`.`created_at`) = '2018'
 AND MONTH(`prenotazioni_has_ospiti`.`created_at`) = '05';
 
-
 -- Fai la somma di tutti i prezzi delle prenotazioni per le stanze del primo piano
 SELECT SUM(`pagamenti`.`price`) AS `Totale_Incassi`
 FROM `prenotazioni`
@@ -65,10 +64,32 @@ AND  `stanze`.`floor` = 1
 INNER JOIN `pagamenti`
 ON `pagamenti`.`prenotazione_id` = `prenotazioni`.`id`;
 
-
 -- Le stanze sono state tutte prenotate almeno una volta? (Visualizzare le stanze non ancora prenotate)
 SELECT `stanze`.`room_number` AS `stanze_inutilizzate` 
 FROM `stanze`
 LEFT JOIN `prenotazioni`
 ON `stanze`.`id`= `prenotazioni`.`stanza_id`
 WHERE `prenotazioni`.`stanza_id` IS NULL;
+
+-- Conta gli ospiti raggruppandoli per anno di nascita
+SELECT 
+    YEAR(`date_of_birth`) AS `Anno_Nascita`, 
+    COUNT(`id`) AS `Ospiti`
+FROM `ospiti`
+GROUP BY YEAR(`date_of_birth`);
+
+-- Somma i prezzi dei pagamenti raggruppandoli per status
+SELECT 
+	`status`,
+    SUM(`price`) AS `Incassi`
+FROM `pagamenti`
+GROUP BY `status`;
+
+-- Quante prenotazioni ha fatto l’ospite che ha fatto più prenotazioni?
+SELECT 
+	`ospite_id` AS `ID_Ospite`,
+	COUNT(`prenotazione_id`) AS `Totale_Prenotazioni`
+FROM `prenotazioni_has_ospiti`
+GROUP BY `ospite_id`
+ORDER BY COUNT(`prenotazione_id`) DESC
+LIMIT 1;
